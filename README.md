@@ -1,6 +1,6 @@
 # Analise Visual e Anonimizacao de Imagens no Azure
 
-Este repositorio deixou de ser apenas um texto conceitual e virou um MVP executavel de analise visual com foco em privacidade. Em vez de ampliar reconhecimento facial biometrico, o projeto foi reposicionado para um laboratorio seguro de deteccao de rostos, extracao de metadados da imagem e anonimizacao com blur.
+o projeto foi reposicionado para um laboratorio seguro de deteccao de rostos, extracao de metadados da imagem e anonimizacao com blur.
 
 ## O que o projeto entrega
 
