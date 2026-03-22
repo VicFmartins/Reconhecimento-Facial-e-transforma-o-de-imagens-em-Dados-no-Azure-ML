@@ -1,25 +1,110 @@
-# Reconhecimento-Facial-e-transforma-o-de-imagens-em-Dados-no-Azure-ML
+# Analise Visual e Anonimizacao de Imagens no Azure
 
-Este projeto visa demonstrar o processo de reconhecimento facial e transformação de imagens em dados usando o Azure Machine Learning (ML). O Azure ML oferece ferramentas poderosas para processamento de imagens e análise de dados, permitindo a extração de informações valiosas a partir de imagens.
+Este repositorio deixou de ser apenas um texto conceitual e virou um MVP executavel de analise visual com foco em privacidade. Em vez de ampliar reconhecimento facial biometrico, o projeto foi reposicionado para um laboratorio seguro de deteccao de rostos, extracao de metadados da imagem e anonimizacao com blur.
 
-Passo a Passo
-1. Preparação do Ambiente
-Crie uma conta no Azure e acesse o portal do Azure Machine Learning.
-Crie um novo projeto e configure o ambiente de trabalho.
-2. Importação dos Dados
-Carregue as imagens que serão utilizadas para o reconhecimento facial no Azure ML.
-Explore os dados para entender a estrutura e conteúdo das imagens.
-3. Pré-processamento das Imagens
-Realize o pré-processamento das imagens, aplicando técnicas como redimensionamento, normalização e remoção de ruídos.
-4. Treinamento do Modelo de Reconhecimento Facial
-Escolha um algoritmo de aprendizado de máquina adequado para o reconhecimento facial, como redes neurais convolucionais (CNNs).
-Divida os dados em conjuntos de treinamento e teste.
-Treine o modelo usando o conjunto de treinamento e avalie sua performance com o conjunto de teste.
-5. Transformação de Imagens em Dados
-Após o treinamento bem-sucedido do modelo, aplique-o para realizar a transformação das imagens em dados estruturados.
-Extraia informações como características faciais, emoções detectadas e outras métricas relevantes.
-6. Insights e Possibilidades
-Durante o desenvolvimento deste projeto, foram obtidos insights importantes, como a eficácia de determinados algoritmos de reconhecimento facial em diferentes contextos.
-As possibilidades de aplicação incluem sistemas de segurança baseados em reconhecimento facial, análise de sentimentos em imagens e personalização de experiências de usuário.
-Conclusão
-O uso do Azure Machine Learning para reconhecimento facial e transformação de imagens em dados oferece oportunidades significativas para inovação e desenvolvimento de soluções inteligentes. Este projeto é apenas um exemplo do potencial dessa tecnologia e suas aplicações práticas.
+## O que o projeto entrega
+
+- API REST para analise de imagem
+- deteccao local de rostos
+- anonimizacao de rostos com blur
+- metadados visuais como dimensoes, brilho medio e cores dominantes
+- exemplos de uso com `curl`
+- testes automatizados
+- Dockerfile para execucao local
+
+## Por que mudei o foco
+
+O titulo original apontava para reconhecimento facial, mas esse caminho cruza riscos importantes de privacidade e biometria. Para deixar o repositorio mais forte, util e responsavel, foquei em um caso de uso seguro:
+
+- transformar imagens em dados nao sensiveis
+- proteger rostos em vez de identificar pessoas
+- mostrar pipeline de visao computacional aplicavel a moderacao, LGPD e pre-processamento
+
+## Endpoints
+
+### `GET /health`
+
+Retorna o status da API.
+
+### `POST /api/images/analyze`
+
+Recebe uma imagem e retorna:
+
+- dimensoes
+- brilho medio
+- cores dominantes
+- quantidade de rostos detectados
+- bounding boxes
+
+### `POST /api/images/anonymize`
+
+Recebe uma imagem, aplica blur nos rostos detectados e devolve um PNG anonimizado.
+
+## Como executar localmente
+
+### Com Python
+
+```bash
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+### Com Docker
+
+```bash
+docker build -t safe-vision-analysis .
+docker run -p 8000:8000 safe-vision-analysis
+```
+
+## Exemplos
+
+Veja:
+
+- [curl-analyze.txt](C:/Users/vitor/OneDrive/Documentos/Playground/repo-face-azureml/examples/curl-analyze.txt)
+- [curl-anonymize.txt](C:/Users/vitor/OneDrive/Documentos/Playground/repo-face-azureml/examples/curl-anonymize.txt)
+
+## Estrutura do projeto
+
+- `app/main.py`: endpoints da API
+- `app/vision_service.py`: deteccao de rostos, analise visual e anonimizacao
+- `app/models.py`: contratos de resposta
+- `tests/test_vision_api.py`: testes do fluxo principal
+- `docs/responsible-ai.md`: escopo seguro e limites do projeto
+
+## Relacao com Azure
+
+O nome do repositorio menciona Azure ML, mas para esse tipo de fluxo o ecossistema mais natural hoje fica em torno de servicos de visao do Azure. Este MVP local serve como base de portfolio para:
+
+- pre-processamento antes de pipelines de ML
+- moderacao e privacidade de imagens
+- enriquecimento visual antes de armazenamento ou busca
+- integracao futura com servicos gerenciados do Azure
+
+## Referencias oficiais
+
+Usei como base documentacao oficial da Microsoft sobre Azure AI Vision e Azure Face:
+
+- [Azure AI Vision documentation](https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/)
+- [Image Analysis overview](https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-image-analysis)
+- [Azure Face service overview](https://learn.microsoft.com/en-us/azure/ai-services/face/overview-identity)
+
+Observacao: a documentacao oficial destaca que o Azure Face tem acesso limitado baseado em criterios de elegibilidade e uso. Por isso, este projeto deliberadamente fica no campo de deteccao e anonimizacao, sem identificacao de pessoas.
+
+## Validacao
+
+```bash
+pytest
+```
+
+Os testes cobrem:
+
+- analise de imagem com rosto detectado
+- retorno de PNG anonimizado
+- analise sem rostos
+
+## Proximos passos
+
+- adicionar upload em lote
+- salvar relatorio JSON por imagem
+- incluir redacao de texto visivel em documentos
+- criar interface web simples para preview antes/depois
