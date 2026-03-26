@@ -60,8 +60,8 @@ docker run -p 8000:8000 safe-vision-analysis
 
 Veja:
 
-- [curl-analyze.txt](C:/Users/vitor/OneDrive/Documentos/Playground/repo-face-azureml/examples/curl-analyze.txt)
-- [curl-anonymize.txt](C:/Users/vitor/OneDrive/Documentos/Playground/repo-face-azureml/examples/curl-anonymize.txt)
+- [curl-analyze.txt](examples/curl-analyze.txt)
+- [curl-anonymize.txt](examples/curl-anonymize.txt)
 
 ## Estrutura do projeto
 
